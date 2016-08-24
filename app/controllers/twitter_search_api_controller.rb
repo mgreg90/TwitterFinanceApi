@@ -1,0 +1,2 @@
+class TwitterSearchApiController < ApplicationController
+end
