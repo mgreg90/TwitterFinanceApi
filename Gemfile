@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'twitter'
+gem 'capybara'
+gem 'poltergeist'
+gem 'nokogiri'
+gem 'selenium-webdriver'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
