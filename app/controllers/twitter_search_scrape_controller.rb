@@ -1,0 +1,2 @@
+class TwitterSearchScrapeController < ApplicationController
+end

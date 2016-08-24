@@ -1,0 +1,2 @@
+class TwitterSearchScrape < ApplicationRecord
+end
