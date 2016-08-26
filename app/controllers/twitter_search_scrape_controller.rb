@@ -7,8 +7,6 @@ class TwitterSearchScrapeController < ApplicationController
                           params[:start_date],
                           params[:end_date]
                         )
-    # new_search.clean_dates
     new_search.twitter_advanced_search
-    new_search.send_search
   end
 end

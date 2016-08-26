@@ -3,10 +3,13 @@ class TwitterSearchScrape < ApplicationRecord
   require 'capybara'
   require 'capybara/dsl'
   require 'capybara/poltergeist'
+  require 'nokogiri'
 
   include Capybara::DSL
   # Capybara.default_driver = :poltergeist # for production
   Capybara.default_driver = :selenium # for testing
+
+  Capybara.default_selector = :css
 
   def set_vars(term, start_date, end_date)
     @term = term
@@ -21,16 +24,19 @@ class TwitterSearchScrape < ApplicationRecord
 
   def twitter_advanced_search
     # dates must be in YYYY-MM-DD format
-    visit "https://twitter.com/search-advanced"
-    fill_in 'All of these words', with: @term
-    select 'English (English)', from: 'Written in'
-    page.execute_script("$('#since').datepicker('setDate', '#{@start_date}')")
-    page.execute_script("$('#until').datepicker('setDate', '#{@end_date}')")
-    click_button 'go'
-    click_button 'go'
-  end
-
-  def send_search
+    @session = Capybara::Session.new(:selenium)
+    @session.visit "https://twitter.com/search-advanced"
+    @session.fill_in 'All of these words', with: @term
+    @session.select 'English (English)', from: 'Written in'
+    @session.execute_script("$('#since').datepicker('setDate', '#{@start_date}')")
+    @session.execute_script("$('#until').datepicker('setDate', '#{@end_date}')")
+    @session.click_button 'go' # just for a click out so that some open picker closes
+    @session.click_button 'go'
+    puts @session.html
+    # @session.should Capybara.have_content('div.tweet')
+    @session.all('div.tweet').each do |tweet|
+      p tweet
+    end
   end
 
 end
